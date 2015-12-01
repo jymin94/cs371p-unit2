@@ -91,3 +91,38 @@ int main () {
 
 	p->f();
 }
+
+/* 
+ * Downing drew a really good diagram for this lel
+ *
+ * but basically every time there is a new "virtual", we add a pointer of the type of the new thing in the children
+ * yea idk
+ */
+
+
+/* INLINE FUNCTIONS: replacing call to function with the body of the function
+ *
+ * CAN WE INLINE VIRTUAL METHODS?
+ * p->f()
+ *
+ * NO
+ */
+
+int main () {
+	B x;
+	x.f();
+
+	A* p = new B;
+	p->A::f();
+
+	/*
+	 * Assuming we got
+	 * A:A() {
+	 *    f()	//calls A's f()
+	 * }
+	 */
+	A* p = new C;	// calls A(), B(), C()
+	p->f();			// calls C's f()
+
+	/* at the end calls ~C(), ~B(), ~A()
+}
