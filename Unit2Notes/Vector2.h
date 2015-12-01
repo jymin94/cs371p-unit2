@@ -99,6 +99,7 @@ inline bool operator >= (const T& lhs, const T& rhs) {
 
 using namespace std::rel_ops;
 
+/* user can replace with own allocator type */
 template <typename T, typename A = std::allocator<T>>
 class my_vector {
     friend bool operator == (const my_vector& lhs, const my_vector& rhs) {
@@ -132,11 +133,13 @@ class my_vector {
         explicit my_vector (size_type s = 0, const_reference v = T(), const A& a = A()) :
                 _a (a),
                 _b (s == 0 ? nullptr : _a.allocate(s)),
+				/* O(1), allocator doesn't run anything of T */
                 _e (s == 0 ? nullptr : _b + s) {
             my_uninitialized_fill(_a, _b, _e, v);}
 
         ~my_vector () {
             my_destroy(_a, begin(), end());
+			/* calls destroy in a loop */
             _a.deallocate(begin(), size());}
 
         reference operator [] (size_type i) {
