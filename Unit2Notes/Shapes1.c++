@@ -88,7 +88,7 @@ TEST(Shape_Fixture, test_5) {
 
     p->move(5, 6);
     ASSERT_EQ(0, p->area());
-	/* compiler doesn't know chich area() to call so it just calls Shape's */
+	/* compiler doesn't know which area() to call so it just calls Shape's */
 //  p->radius();                               // doesn't compile
 //  delete p;                                  // illdefined
 	/* doesn't invoke Circle's destructor */
@@ -101,7 +101,19 @@ TEST(Shape_Fixture, test_6) {
     const Shape* const p = new Circle(2, 3, 4);
           Shape* const q = new Circle(2, 3, 5);
 //  ASSERT_NE(*p, *q);                                     // illdefined
-	/* inequality of Shape's invoked */
+	/* inequality of Shape's invoked
+	 * does COMPILE, but it uses Shape's != operator
+	 * but does not look at radius, just looks at the x, y (the Shape parts)
+	 *
+	 * this is a result of STATIC BINDING.
+	 * dynamic binding decides which to run based on the type of object
+	 *
+	 * if we made the != virtual, it doesn't work because it is a function, and only
+	 * methods can become virtual
+	 *
+	 * so let's give it to a method and make it virtual.
+	 * GO TO SHAPES2.C++
+	 */
 //  *q = *p;                                               // illdefined
 	/* gets the Shape part of one Circle & assigns it to another part of Circle */
 //  ASSERT_EQ(*p, *q);                                     // illdefined

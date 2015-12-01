@@ -219,3 +219,37 @@ void A::f(int) {
 A::~A() {
 
 }
+
+
+/* Undesirable vs desirables */
+struct A {
+	void f (int) {
+
+	}
+	/* child can override, static
+	 * if child overrides f, it's statically bound so B's version of f is not going
+	 * to be called using POINTER unless we have a B b
+	 */
+
+	virtual void g (int) {
+
+	}
+	/* child can override, dynamic */
+
+	virtual void h (int) = 0;
+	/* child MUST override or become abstract */
+}
+
+struct A {
+	void f (double) {
+		// if this was void f(string), then the call to f would not compile
+	}
+
+	virtual void g (long) {
+		// overridden ones in B won't be called
+	}
+	/* undesirable because different methods get called instead of compile error */
+
+	virtual void h (long) = 0;
+		// stops compiling because child becomes abstract
+}
