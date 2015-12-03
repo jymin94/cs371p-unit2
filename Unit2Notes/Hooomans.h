@@ -130,9 +130,14 @@ class Handler {
 				_p = rhs._p->clone();
 		}
 
-		Handler& operator = (const Handler& rhs) {
-			swap(_p, rhs._p);
+		Handler& operator = (Handler rhs) {
+			swap(rhs);
+			//swap(_p, rhs._p);
 			return *this;
+		}
+
+		void swap (Handler& rhs) {
+			std::swap(_p, rhs._p);
 		}
 
 		const T& operator * () {
@@ -149,5 +154,9 @@ class Handler {
 
 		const T* operator -> () {
 			return _p;
+		}
+
+		~Handler () {
+			delete _p;
 		}
 }
