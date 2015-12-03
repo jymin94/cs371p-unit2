@@ -1,0 +1,74 @@
+template <typename T, typename C = std::deque<T>>
+class fuck_stack {
+	private:
+		C _c;
+	public:
+		explicit fuck_stack (const C& c = C()) :
+			_c (c) {
+
+		}
+
+		fuck_stack(const fuck_stack&) = default;
+		fuck_stack& operator = (const fuck_stack&) = default;
+		~fuck_stack() = default;
+
+		bool empty () const {
+			return _c.empty();
+		}
+
+		void pop () {
+			_c.pop_back();
+		}
+
+		void push(const T& v) {
+			_c.push_back(v);
+		}
+
+		int size() const {
+			return _c.size();
+		}
+
+		T& top() {
+			return _c.back();
+		}
+
+		const T& top() const {
+			return _c.back();
+		}
+		
+}
+
+
+// using a vector
+	template <typename T, typename V = std::vector<T>>
+	class vector_stack {
+	private:
+		V _v;
+	public:
+		explicit vector_stack (const fuck_vector& v = fuck_vector()) :
+			_v (v) {
+
+		}
+
+		vector_stack(const vector_stack&) = default;
+		vector_stack& operator = (const vector_stack&) = default;
+		~vector_stack() = default;
+
+		void pop () {
+			--_v.end();
+			// but the _e is private
+		}
+
+		void push(const T& v) {
+			(*_v.end()) = v;
+			++_v.end();
+		}
+
+		int size() const {
+			return _v.size();
+		}
+
+		T& top () {
+			return _v.back();
+		}
+}
